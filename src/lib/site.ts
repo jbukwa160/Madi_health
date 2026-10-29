@@ -100,4 +100,7 @@ export const MAX_BUNDLE_DISCOUNT = Math.max(...Object.values(BUNDLE_DISCOUNT));
 export const CART_KEY = "af_cart_v1";
 export const CART_BUNDLES_KEY = "af_cart_bundles_v1";
 export const FAVORITES_KEY = "af_fav_v1";
+export const COMPARE_KEY = "af_compare_v1";
+/** Products that can be compared side by side at /sravnenie. */
+export const COMPARE_MAX = 4;
 export const ORDER_KEY = "af_last_order";

@@ -93,16 +93,21 @@ export function MobileMenu({ categories }: { categories: MenuCategory[] }) {
             })}
           </ul>
           <ul className="mt-5 space-y-1 pb-6">
-            <li>
-              <Link href="/kolektsii/novo" className="block py-2 text-[1rem] font-semibold text-brand">
-                Ново
-              </Link>
-            </li>
-            <li>
-              <Link href="/marki" className="block py-2 text-[1rem]">
-                Марки
-              </Link>
-            </li>
+            {[
+              { href: "/promotsii", label: "Промоции", cls: "font-semibold text-danger" },
+              { href: "/srochni-produkti", label: "Срочни продукти" },
+              { href: "/kolektsii/novo", label: "Нови продукти" },
+              { href: "/marki", label: "Марки" },
+              { href: "/sravnenie", label: "Сравнение" },
+              { href: "/blog", label: "Блог" },
+              { href: "/konsultatsia", label: "Консултация с фармацевт", cls: "font-semibold text-mint-deep" },
+            ].map((l) => (
+              <li key={l.href}>
+                <Link href={l.href} className={`block py-2 text-[1rem] ${l.cls ?? ""}`}>
+                  {l.label}
+                </Link>
+              </li>
+            ))}
             <li>
               <Link href="/lyubimi" className="block py-2 text-[1rem]">
                 Любими

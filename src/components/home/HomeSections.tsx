@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { IconArrowRight, IconCash, IconClock, IconGift, IconPharmacist, IconPhone, IconPin, IconShield, IconTruck } from "@/components/Icons";
+import { IconArrowRight, IconCash, IconClock, IconPharmacist, IconPhone, IconPin, IconReturn, IconShield, IconTruck } from "@/components/Icons";
 import { ProductImage } from "@/components/ProductImage";
 import { Reveal } from "@/components/Reveal";
 import type { NavCategory } from "@/lib/catalog";
@@ -82,7 +82,7 @@ function HeroStills({ stills }: { stills: Product[] }) {
 export function Promises() {
   const items = [
     { icon: <IconTruck size={24} />, title: "Безплатна доставка", text: `за поръчки над ${priceShort(SHIPPING.freeFrom)}` },
-    { icon: <IconGift size={24} />, title: "Подарък мостра", text: "към всяка поръчка" },
+    { icon: <IconReturn size={24} />, title: "Връщане до 14 дни", text: "за неразпечатани продукти" },
     { icon: <IconPharmacist size={24} />, title: "Консултация", text: "с магистър-фармацевт до 1 час" },
     { icon: <IconCash size={24} />, title: "Наложен платеж", text: "плащате при получаване" },
   ];
@@ -129,7 +129,7 @@ export type CategoryTile = { category: NavCategory; cover?: Product };
 export function CategoryGrid({ items }: { items: CategoryTile[] }) {
   return (
     <section className="shell">
-      <SectionHead eyebrow="Категории" title="Всичко за здравето и грижата за семейството" href="/kategorii" linkLabel="Всички категории" />
+      <SectionHead eyebrow="Категории" title="Всичко за здравето и грижата за семейството" href="/kategorii" linkLabel="Категории" />
       <ul className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 sm:gap-4 xl:grid-cols-5">
         {items.map(({ category: c, cover }, i) => (
           <li key={c.id} className={i === 0 ? "col-span-2 sm:col-span-1 xl:row-span-2" : ""}>

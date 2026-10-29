@@ -29,3 +29,14 @@ export function amount(facts: { ml?: number; g?: number }): string | null {
   if (facts.g) return facts.g >= 1000 && facts.g % 100 === 0 ? `${num(facts.g / 1000)} кг` : `${num(facts.g)} г`;
   return null;
 }
+
+/** Whole-percent discount from the old to the new price (rounded down, so the badge never promises more). */
+export function discountPercent(oldPrice: number, price: number): number {
+  return Math.max(1, Math.floor(((oldPrice - price) / oldPrice) * 100));
+}
+
+/** "12.2026" from "2026-12-31": the best-before month of a short-dated product. */
+export function expiryLabel(date: string): string {
+  const [y, m] = date.split("-");
+  return `${m}.${y}`;
+}

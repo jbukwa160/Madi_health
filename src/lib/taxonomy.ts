@@ -206,7 +206,18 @@ export function findSub(category: string, sub: string): Sub | undefined {
 
 // ── Collections ──
 
-export type CollectionId = "novo" | "dermokozmetika" | "bez-zahar" | "vegan" | "balgarski" | "podaratsi" | "za-nego" | "detsa";
+export type CollectionId =
+  | "novo"
+  | "dermokozmetika"
+  | "bez-zahar"
+  | "vegan"
+  | "balgarski"
+  | "podaratsi"
+  | "za-nego"
+  | "detsa"
+  /** Lists of their own (/promotsii, /srochni-produkti), filled from data/promotions.csv and data/short-dated.csv. */
+  | "promotsii"
+  | "srochni";
 
 export type Collection = { id: CollectionId; name: string; title: string; intro: string };
 

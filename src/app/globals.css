@@ -302,6 +302,10 @@
     background: var(--color-mint-soft);
     color: var(--color-mint-deep);
   }
+  .badge-sale {
+    background: var(--color-danger);
+    color: #fff;
+  }
 
   .chip {
     display: inline-flex;

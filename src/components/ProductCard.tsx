@@ -1,8 +1,9 @@
 import Link from "next/link";
 import { FavoriteButton, QuickAdd } from "@/components/CardActions";
+import { CompareButton } from "@/components/compare/CompareButton";
 import { ProductImage } from "@/components/ProductImage";
 import { type Card, toCard } from "@/lib/catalog";
-import { plural, price } from "@/lib/format";
+import { discountPercent, expiryLabel, plural, price } from "@/lib/format";
 
 const SIZES = "(min-width: 90rem) 15vw, (min-width: 64rem) 20vw, (min-width: 48rem) 28vw, 44vw";
 
@@ -19,9 +20,12 @@ export function ProductCard({ card, priority = false }: { card: Card; priority?:
       <div className={`tile pointer-events-none relative z-[1] aspect-square ${soldOut ? "opacity-60" : ""}`}>
         <ProductImage src={p.image} alt="" iw={p.iw} ih={p.ih} sizes={SIZES} priority={priority} className="p-2 group-hover:scale-[1.035]" />
         <div className="absolute left-1 top-1 flex flex-col items-start gap-1.5">
-          {soldOut ? <span className="badge">Изчерпан</span> : isNew ? <span className="badge badge-brand">Ново</span> : null}
+          {p.oldPrice && !soldOut ? <span className="badge badge-sale">−{discountPercent(p.oldPrice, p.price)}%</span> : null}
+          {p.expiry && !soldOut ? <span className="badge">Срок до {expiryLabel(p.expiry)}</span> : null}
+          {soldOut ? <span className="badge">Изчерпан</span> : isNew && !p.oldPrice ? <span className="badge badge-brand">Ново</span> : null}
         </div>
         <FavoriteButton product={cardProduct} className="pointer-events-auto absolute right-0 top-0" />
+        <CompareButton product={cardProduct} className="pointer-events-auto absolute right-0 top-10" />
       </div>
       <div className="mt-2.5 flex flex-1 flex-col px-0.5">
         {p.brand ? <p className="eyebrow mb-1 truncate">{p.brand}</p> : null}
@@ -40,9 +44,15 @@ export function ProductCard({ card, priority = false }: { card: Card; priority?:
           {soldOut ? "Няма наличност" : "В наличност"}
         </p>
         <div className="mt-auto flex items-end justify-between gap-2 pt-2.5">
-          <p className="num text-[1rem] font-bold tracking-[-0.01em] text-ink sm:text-[1.0625rem]">
+          <p className={`num text-[1rem] font-bold tracking-[-0.01em] sm:text-[1.0625rem] ${p.oldPrice ? "text-danger" : "text-ink"}`}>
             {range ? <span className="mr-1 text-[0.8125rem] font-normal text-ink-3">от</span> : null}
             {price(card.minPrice)}
+            {p.oldPrice && !range ? (
+              <span className="ml-1.5 text-[0.8125rem] font-normal text-ink-3 line-through">
+                <span className="sr-only">Предишна цена </span>
+                {price(p.oldPrice)}
+              </span>
+            ) : null}
           </p>
           {!soldOut && !many ? <QuickAdd product={cardProduct} className="relative z-[1]" /> : null}
         </div>

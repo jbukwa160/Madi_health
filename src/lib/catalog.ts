@@ -497,5 +497,5 @@ export function suggest(q: string): Suggestion {
 
 /** The part of a product that client components (cart, search suggestions, favourites) need. */
 export function toCard(p: Product, title?: string): CardProduct {
-  return { sku: p.sku, slug: p.slug, name: title ?? p.name, brand: p.brand, price: p.price, image: p.image, stock: p.stock, variant: p.variant };
+  return { sku: p.sku, slug: p.slug, name: title ?? p.name, brand: p.brand, price: p.price, image: p.image, stock: p.stock, variant: p.variant, oldPrice: p.oldPrice };
 }

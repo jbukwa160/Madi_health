@@ -7,7 +7,7 @@ import { coverFor, navCategories } from "@/lib/catalog";
 import { count } from "@/lib/format";
 
 export const metadata: Metadata = {
-  title: "Всички категории",
+  title: "Категории",
   description: "Фармация и здраве, козметика, мама и бебе, хранителни добавки, хигиена, медицински изделия, био продукти и всичко за дома.",
   alternates: { canonical: "/kategorii" },
 };
@@ -16,8 +16,8 @@ export default function CategoriesPage() {
   const categories = navCategories();
   return (
     <div className="shell pt-6 md:pt-8">
-      <Breadcrumbs items={[{ href: "/", label: "Начало" }, { label: "Всички категории" }]} />
-      <h1 className="display mt-6 text-[2.1rem] sm:text-[2.6rem]">Всички категории</h1>
+      <Breadcrumbs items={[{ href: "/", label: "Начало" }, { label: "Категории" }]} />
+      <h1 className="display mt-6 text-[2.1rem] sm:text-[2.6rem]">Категории</h1>
       <ul className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
         {categories.map((c) => {
           const cover = coverFor(c.id, undefined, 1);

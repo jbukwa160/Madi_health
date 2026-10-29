@@ -1,6 +1,9 @@
 import { BrandWall, type BrandTile, CategoryGrid, ConsultBanner, FeatureTiles, type FeatureTile, Hero, PharmacyBlock, Promises, Welcome } from "@/components/home/HomeSections";
 import { ProductRail } from "@/components/ProductRail";
 import { Reveal } from "@/components/Reveal";
+import { PostCard } from "@/components/blog/PostCard";
+import { SectionHead } from "@/components/home/HomeSections";
+import { allPosts } from "@/lib/blog";
 import { brandLogo } from "@/lib/brand-logos";
 import { allBrands, allProducts, cardKey, coverFor, featured, navCategories, newest, productCount } from "@/lib/catalog";
 import type { Brand, Product } from "@/lib/types";
@@ -81,6 +84,20 @@ export default function Home() {
         <ProductRail eyebrow="Хранителни добавки" title="Витамини и добавки" href="/dobavki-i-sport" cards={supplements} />
       </Reveal>
       <BrandWall brands={pharmacyBrands(24)} />
+      <section className="shell">
+        <SectionHead eyebrow="Блог" title="Съвети от аптеката" href="/blog" linkLabel="Всички статии" />
+        <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {allPosts()
+            .slice(0, 3)
+            .map((p) => (
+              <li key={p.slug}>
+                <Reveal className="h-full">
+                  <PostCard post={p} />
+                </Reveal>
+              </li>
+            ))}
+        </ul>
+      </section>
       <PharmacyBlock />
       <Welcome products={productCount()} />
     </div>

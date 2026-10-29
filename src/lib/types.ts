@@ -36,6 +36,10 @@ export type Product = {
   price: number;
   /** True when the price comes from data/prices.csv, false when the import estimated it. */
   priceConfirmed: boolean;
+  /** Price before the promotion (data/promotions.csv); only set when it is higher than `price`. */
+  oldPrice?: number;
+  /** Best-before date (YYYY-MM-DD) of a short-dated product sold off cheaper (data/short-dated.csv). */
+  expiry?: string;
   /** Units that can be sold right now (inventory minus reserved). */
   stock: number;
   image: string;
@@ -76,4 +80,4 @@ export type GalleryPicture = { src: string; w: number; h: number; direct?: true 
 export type ProductDetails = { copy?: ProductCopy & { basis: CopyBasis }; ingredients?: string; gallery?: GalleryPicture[] };
 
 /** The part of a product that client components (cart, search suggestions) need. */
-export type CardProduct = Pick<Product, "sku" | "slug" | "name" | "brand" | "price" | "image" | "stock"> & { variant?: string };
+export type CardProduct = Pick<Product, "sku" | "slug" | "name" | "brand" | "price" | "image" | "stock"> & { variant?: string; oldPrice?: number };

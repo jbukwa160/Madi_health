@@ -226,3 +226,10 @@ export const IconPill = (p: P) => (
     <path d="m9.6 9.6 4.8 4.8" />
   </Svg>
 );
+
+export const IconCompare = (p: P) => (
+  <Svg {...p}>
+    <path d="M7 4.5v15M17 4.5v15" />
+    <path d="M3.5 8 7 4.5 10.5 8M13.5 16l3.5 3.5 3.5-3.5" />
+  </Svg>
+);

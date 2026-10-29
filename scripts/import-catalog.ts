@@ -360,6 +360,68 @@ function readPrices(): Map<string, number> {
   return prices;
 }
 
+// ── Promotions and short-dated products ──
+
+/** Rows of a small CSV with an SKU column, as lower-case column → value. `,` or `;` separated. */
+function readSkuTable(file: string): Map<string, Record<string, string>> {
+  const rows = new Map<string, Record<string, string>>();
+  if (!existsSync(file)) return rows;
+  const lines = readFileSync(file, "utf8").replace(/^\uFEFF/, "").split(/\r?\n/).filter((l) => l.trim() && !l.startsWith("#"));
+  if (!lines.length) return rows;
+  const sep = lines[0].includes(";") ? ";" : ",";
+  const head = lines[0].split(sep).map((h) => h.trim().toLowerCase().replace(/"/g, ""));
+  if (!head.includes("sku")) throw new Error(`${file}: needs an "SKU" column`);
+  for (const line of lines.slice(1)) {
+    const cells = line.split(sep).map((c) => c.trim().replace(/^"|"$/g, ""));
+    const row = Object.fromEntries(head.map((h, i) => [h, cells[i] ?? ""]));
+    if (row.sku) rows.set(row.sku, row);
+  }
+  return rows;
+}
+
+const money = (v: string | undefined) => {
+  const n = Number((v ?? "").replace(",", "."));
+  return n > 0 ? Math.round(n * 100) / 100 : undefined;
+};
+
+/**
+ * data/promotions.csv (SKU, OldPrice, Price) and data/short-dated.csv (SKU, Expiry as YYYY-MM-DD, Price): the business's
+ * own offers. Nothing is invented: without these files there are no promotions and no short-dated products. Under the
+ * Omnibus rules the old price must be the lowest price of the last 30 days before the promotion. Expired rows are skipped.
+ */
+function applyOffers(products: Product[]) {
+  const bySku = new Map(products.map((p) => [p.sku, p]));
+  const today = new Date().toISOString().slice(0, 10);
+  let promos = 0;
+  let short = 0;
+  for (const [sku, row] of readSkuTable(path.join(DATA, "promotions.csv"))) {
+    const p = bySku.get(sku);
+    const old = money(row.oldprice ?? row["стара цена"]);
+    const now = money(row.price ?? row["цена"]) ?? p?.price;
+    if (!p || !old || !now || old <= now) continue;
+    p.price = now;
+    p.oldPrice = old;
+    p.priceConfirmed = true;
+    p.tags.push("promotsii");
+    promos++;
+  }
+  for (const [sku, row] of readSkuTable(path.join(DATA, "short-dated.csv"))) {
+    const p = bySku.get(sku);
+    const expiry = (row.expiry ?? row["срок"] ?? "").trim();
+    if (!p || !/^\d{4}-\d{2}-\d{2}$/.test(expiry) || expiry < today) continue;
+    const now = money(row.price ?? row["цена"]);
+    if (now && now < p.price) {
+      p.oldPrice = p.oldPrice ?? p.price;
+      p.price = now;
+      p.priceConfirmed = true;
+    }
+    p.expiry = expiry;
+    p.tags.push("srochni");
+    short++;
+  }
+  console.log(`  ${promos} promotions (data/promotions.csv), ${short} short-dated products (data/short-dated.csv)`);
+}
+
 /** Cosmetics: the cosmetics shop's place of each SKU (its descriptions are keyed to it). */
 const cosmeticPlaces = new Map<string, Place>();
 
@@ -502,6 +564,7 @@ async function main() {
         Math.min(10, Math.floor(c.stock / 5)),
     };
   });
+  applyOffers(products);
   assignFamilies(products);
   products.sort((a, b) => b.rank - a.rank || a.name.localeCompare(b.name, "bg"));
 

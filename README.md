@@ -36,6 +36,9 @@ npx next dev -p 3007
 | Search | `/tarsene?q=…` (suggestions appear while typing in the header) |
 | Product | `/produkt/<slug>` |
 | Question to a pharmacist | `/konsultatsia` |
+| Promotions / short-dated products | `/promotsii`, `/srochni-produkti` (empty until `data/promotions.csv` / `data/short-dated.csv` have rows) |
+| Product comparison | `/sravnenie` (up to 4 products, kept in the browser; compare icon on every product) |
+| Blog | `/blog`, `/blog/<slug>` (the 17 articles of arfa7.bg/blog, in `src/content/blog.json`, covers in `public/blog/`) |
 | Favourites | `/lyubimi` (kept in the browser, no accounts) |
 | Checkout | `/poruchka` → `/poruchka/blagodarim` |
 | Information and legal pages | `/info/dostavka`, `vrashtane`, `kak-da-porucham`, `kontakti`, `za-nas`, `obshti-usloviya`, `poveritelnost`, `biskvitki`, `prava-na-potrebitelite`, `organi` |
@@ -89,6 +92,17 @@ e-mail to the shop warns when an order contains estimated prices.
 
 Real prices: put a CSV with the columns `SKU` and `Price` (euro, VAT included) at `data/prices.csv` — see
 `data/prices.example.csv` — and run the import again.
+
+## Promotions and short-dated products
+
+Nothing is invented: without these files the pages say there are no offers.
+
+- `data/promotions.csv` — `SKU,OldPrice,Price` (see `promotions.example.csv`). Under the Omnibus rules `OldPrice` must be
+  the lowest price of the 30 days before the promotion.
+- `data/short-dated.csv` — `SKU,Expiry,Price` with `Expiry` as `YYYY-MM-DD` (see `short-dated.example.csv`); expired rows
+  are skipped. The card and the product page show "Срок до MM.YYYY".
+
+Run `npm run import` after changing them.
 
 ## Orders
 
@@ -154,8 +168,8 @@ sender on the waybills (`SENDER_NAME`, `SENDER_CONTACT`, `SENDER_PHONE`, `SENDER
 - The VAT number (`SITE.company.vat` in `src/lib/site.ts`) — arfa7.bg does not publish one.
 - arfa7.bg's privacy policy names ЕИК 203244428 and phone +359 886 537 710, while its terms and footer say ЕИК 205173951
   and +359 877 900 982. This shop uses the latter everywhere; confirm which is right.
-- "Подарък мостра към всяка поръчка" and "консултация до 1 час" are arfa7.bg's own promises, repeated here: the team has
-  to keep them.
+- "Консултация до 1 час" is arfa7.bg's own promise, repeated here: the team has to keep it. (The free-sample promise
+  was removed on purpose — do not add it back unless samples really go into every parcel.)
 - Notify the Executive Agency for Medicinal Products (ИАЛ) about online sale of medicines without prescription from
   this site, as required for pharmacies selling online, and add the EU common logo for online pharmacies if needed.
 - `NEXT_PUBLIC_SITE_URL`, `DATA_DIR` and the SMTP settings in `.env.local` on the server.

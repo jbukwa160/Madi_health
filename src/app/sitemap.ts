@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { INFO_SLUGS } from "@/content/pages";
+import { allPosts } from "@/lib/blog";
 import { allBrands, allProducts, countFor, navCategories } from "@/lib/catalog";
 import { SITE } from "@/lib/site";
 import { COLLECTIONS } from "@/lib/taxonomy";
@@ -25,6 +26,10 @@ export default async function sitemap(props: { id: Promise<string> }): Promise<M
     { url: u("/"), lastModified: now, changeFrequency: "daily", priority: 1 },
     { url: u("/kategorii"), lastModified: now, changeFrequency: "weekly", priority: 0.7 },
     { url: u("/konsultatsia"), changeFrequency: "yearly", priority: 0.5 },
+    { url: u("/promotsii"), lastModified: now, changeFrequency: "daily", priority: 0.7 },
+    { url: u("/srochni-produkti"), lastModified: now, changeFrequency: "daily", priority: 0.5 },
+    { url: u("/blog"), changeFrequency: "weekly", priority: 0.6 },
+    ...allPosts().map((p) => ({ url: u(`/blog/${p.slug}`), lastModified: new Date(`${p.date}T12:00:00`), changeFrequency: "yearly" as const, priority: 0.5 })),
     ...navCategories().flatMap((c) => [
       { url: u(`/${c.id}`), lastModified: now, changeFrequency: "daily" as const, priority: 0.8 },
       ...c.subs.map((s) => ({ url: u(`/${c.id}/${s.id}`), lastModified: now, changeFrequency: "daily" as const, priority: 0.7 })),

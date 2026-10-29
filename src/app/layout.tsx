@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from "next";
 import { AddedNote } from "@/components/cart/AddedNote";
 import { CartDrawer } from "@/components/cart/CartDrawer";
 import { CartProvider } from "@/components/cart/CartProvider";
+import { CompareBar } from "@/components/compare/CompareBar";
+import { CompareProvider } from "@/components/compare/CompareProvider";
 import { FavoritesProvider } from "@/components/favorites/FavoritesProvider";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/header/Header";
@@ -37,14 +39,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body suppressHydrationWarning>
         <CartProvider>
           <FavoritesProvider>
-            <a href="#main" className="skip-link">
-              Към съдържанието
-            </a>
-            <Header />
-            <main id="main">{children}</main>
-            <Footer />
-            <CartDrawer />
-            <AddedNote />
+            <CompareProvider>
+              <a href="#main" className="skip-link">
+                Към съдържанието
+              </a>
+              <Header />
+              <main id="main">{children}</main>
+              <Footer />
+              <CartDrawer />
+              <AddedNote />
+              <CompareBar />
+            </CompareProvider>
           </FavoritesProvider>
         </CartProvider>
       </body>

@@ -43,6 +43,11 @@ export function Announcements({ messages }: { messages: string[] }) {
           ))}
         </div>
         <ul className="hidden items-center gap-5 whitespace-nowrap sm:flex">
+          <li className="hidden md:block">
+            <Link href="/blog" className="link text-white/85 hover:text-white">
+              Блог
+            </Link>
+          </li>
           <li>
             <Link href="/info/dostavka" className="link text-white/85 hover:text-white">
               Доставка и плащане

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { IconCash, IconCheck, IconPharmacist, IconReturn, IconShield, IconTruck } from "@/components/Icons";
 import { Breadcrumbs } from "@/components/listing/Listing";
+import { CompareButton } from "@/components/compare/CompareButton";
 import { AddToCart } from "@/components/product/AddToCart";
 import { ProductGallery } from "@/components/product/ProductGallery";
 import { VariantPicker } from "@/components/product/VariantPicker";
@@ -11,7 +12,7 @@ import { TIPS } from "@/content/tips";
 import { familyOf, fromBrand, getProduct, related, toCard, variantKind } from "@/lib/catalog";
 import { detailsFor } from "@/lib/details";
 import { CONCENTRATIONS } from "@/lib/filters";
-import { amount, price, priceShort } from "@/lib/format";
+import { amount, discountPercent, expiryLabel, price, priceShort } from "@/lib/format";
 import { ADDRESS_PRICE, OFFICE_PRICE, SHIPPING, SITE } from "@/lib/site";
 import { CATEGORY_BY_ID, findSub } from "@/lib/taxonomy";
 import type { Product } from "@/lib/types";
@@ -152,8 +153,22 @@ export default async function ProductPage({ params }: Props) {
 
             <div className="mt-7 flex items-end justify-between gap-4 border-y border-line py-5">
               <div>
-                <p className="num text-[2rem] font-bold leading-none tracking-[-0.02em]">{price(p.price)}</p>
-                <p className="mt-2 text-[0.75rem] text-ink-3">Цената е с ДДС</p>
+                <p className={`num text-[2rem] font-bold leading-none tracking-[-0.02em] ${p.oldPrice ? "text-danger" : ""}`}>
+                  {price(p.price)}
+                  {p.oldPrice ? (
+                    <>
+                      <span className="ml-3 align-middle text-[1.0625rem] font-medium text-ink-3 line-through">
+                        <span className="sr-only">Предишна цена </span>
+                        {price(p.oldPrice)}
+                      </span>
+                      <span className="badge badge-sale ml-2 align-middle">−{discountPercent(p.oldPrice, p.price)}%</span>
+                    </>
+                  ) : null}
+                </p>
+                <p className="mt-2 text-[0.75rem] text-ink-3">
+                  Цената е с ДДС
+                  {p.expiry ? <span className="ml-2 font-semibold text-amber">· Срок на годност до {expiryLabel(p.expiry)}</span> : null}
+                </p>
               </div>
               <StockLine stock={p.stock} />
             </div>
@@ -169,6 +184,9 @@ export default async function ProductPage({ params }: Props) {
 
             <div className="mt-7">
               <AddToCart product={card} />
+            </div>
+            <div className="mt-3 flex">
+              <CompareButton product={card} label />
             </div>
             <Link
               href="/konsultatsia"

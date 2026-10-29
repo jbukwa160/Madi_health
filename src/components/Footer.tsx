@@ -2,7 +2,7 @@ import Link from "next/link";
 import { navCategories } from "@/lib/catalog";
 import { priceShort } from "@/lib/format";
 import { CARRIERS, SHIPPING, SITE } from "@/lib/site";
-import { IconCash, IconClock, IconGift, IconMail, IconPharmacist, IconPhone, IconPin, IconReturn, IconTruck } from "./Icons";
+import { IconCash, IconClock, IconMail, IconPharmacist, IconPhone, IconPin, IconReturn, IconTruck } from "./Icons";
 import { Wordmark } from "./Wordmark";
 
 const COMPANY = [
@@ -19,6 +19,9 @@ const HELP = [
   { href: "/info/vrashtane", label: "Връщане и отказ от поръчка" },
   { href: "/info/kak-da-porucham", label: "Как да поръчам" },
   { href: "/konsultatsia", label: "Консултация с фармацевт" },
+  { href: "/blog", label: "Блог" },
+  { href: "/promotsii", label: "Промоции" },
+  { href: "/sravnenie", label: "Сравнение на продукти" },
   { href: "/marki", label: "Всички марки" },
 ];
 /** Bodies that license and supervise the pharmacy (the same links arfa7.bg shows). */
@@ -39,7 +42,7 @@ export function Footer() {
       <div className="border-b border-white/10">
         <ul className="shell grid grid-cols-1 gap-x-8 gap-y-5 py-8 text-[0.875rem] sm:grid-cols-2 lg:grid-cols-4">
           <Pledge icon={<IconTruck size={22} />} title={`Безплатна доставка над ${priceShort(SHIPPING.freeFrom)}`} text={`До ${SHIPPING.days} работни дни в цяла България`} />
-          <Pledge icon={<IconGift size={22} />} title="Подарък мостра" text="Към всяка поръчка" />
+          <Pledge icon={<IconPharmacist size={22} />} title="Консултация с фармацевт" text="Безплатно, отговор до 1 час" />
           <Pledge icon={<IconCash size={22} />} title="Плащане при получаване" text="Наложен платеж, без предплащане" />
           <Pledge icon={<IconReturn size={22} />} title={`${SHIPPING.returnDays} дни за връщане`} text="За неразпечатани продукти" />
         </ul>
@@ -105,9 +108,20 @@ export function Footer() {
             © {year} {C.name} · ЕИК {C.eik}
             {C.vat ? ` · ДДС № ${C.vat}` : ""} · {C.address} · Управител: {C.manager}
           </p>
-          <p>
-            Проект {SITE.euProject.number} — бенефициент {C.name}, ЕИК {C.eik}. Административен договор по процедура {SITE.euProject.procedure},
-            програма {SITE.euProject.programme}, съфинансирана от Европейския съюз.
+        </div>
+      </div>
+      {/* EU co-financing: the programme's and the EU's logos with the project note, on white as the visibility rules ask. */}
+      <div className="bg-white text-ink">
+        <div className="shell flex flex-col items-center gap-5 py-6 lg:flex-row lg:gap-10">
+          <div className="flex shrink-0 flex-wrap items-center justify-center gap-6">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/eu/pkip-programa.png" alt="Програма „Конкурентоспособност и иновации в предприятията“ 2021–2027" width={346} height={96} loading="lazy" className="h-14 w-auto sm:h-16" />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/eu/pkip-eu.jpg" alt="Съфинансирано от Европейския съюз" width={457} height={96} loading="lazy" className="h-14 w-auto sm:h-16" />
+          </div>
+          <p className="text-center text-[0.8125rem] leading-relaxed text-ink-2 lg:text-left">
+            Проект <strong className="font-semibold text-ink">{SITE.euProject.number}</strong> — бенефициент {C.name}, ЕИК {C.eik}. Административен
+            договор по процедура {SITE.euProject.procedure}, програма {SITE.euProject.programme}, съфинансирана от Европейския съюз.
           </p>
         </div>
       </div>

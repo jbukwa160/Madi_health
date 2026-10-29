@@ -4,7 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { IconArrowRight, IconChevronDown, IconChevronRight, IconGrid, IconPharmacist } from "@/components/Icons";
+import { useCompare } from "@/components/compare/CompareProvider";
+import { IconArrowRight, IconChevronDown, IconChevronRight, IconGrid } from "@/components/Icons";
 import { count } from "@/lib/format";
 
 export type MenuCategory = {
@@ -18,12 +19,12 @@ export type MenuCategory = {
 
 const OPEN_DELAY = 90;
 const CLOSE_DELAY = 170;
-/** Categories with their own link in the bar (the rest are one click away under "Всички категории"). */
-const IN_BAR = ["zdrave", "kozmetika", "mama-i-bebe", "dobavki-i-sport", "higiena", "meditsinski-izdeliya"];
+/** Categories with their own link in the bar, in madihealth.com's order (the rest are under "Категории"). */
+const IN_BAR = ["zdrave", "kozmetika", "dobavki-i-sport", "mama-i-bebe", "higiena", "meditsinski-izdeliya"];
 const ALL = "__all";
 
 /**
- * Category bar. "Всички категории" opens the whole catalogue (categories on the left, the hovered one's
+ * Category bar, laid out like madihealth.com's. "Категории" opens the whole catalogue (categories on the left, the hovered one's
  * subcategories on the right); the main categories open their own menu. Menus open on hover after a short pause (so
  * crossing the bar does not flash them), on keyboard focus and on tap. Once one is open, moving to the next swaps
  * instantly, without animating again.
@@ -34,6 +35,7 @@ export function MegaNav({ categories }: { categories: MenuCategory[] }) {
   const openTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
   const closeTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
   const pathname = usePathname();
+  const compare = useCompare();
 
   // eslint-disable-next-line react-hooks/set-state-in-effect -- close the menu when the page changes
   useEffect(() => setOpen(null), [pathname]);
@@ -97,7 +99,7 @@ export function MegaNav({ categories }: { categories: MenuCategory[] }) {
             }`}
           >
             <IconGrid size={17} />
-            Всички категории
+            Категории
             <IconChevronDown size={15} className={`transition-transform duration-200 ease-out ${open === ALL ? "rotate-180" : ""}`} />
           </button>
           <CatalogPanel categories={categories} open={open === ALL} instant={instant} onEnter={() => show(ALL, 0)} />
@@ -120,7 +122,7 @@ export function MegaNav({ categories }: { categories: MenuCategory[] }) {
               <Link
                 href={`/${c.id}`}
                 aria-expanded={isOpen}
-                className={`relative flex h-full items-center px-2.5 text-[0.875rem] font-medium transition-colors duration-150 after:absolute after:inset-x-2.5 after:bottom-0 after:h-[2px] after:origin-left after:rounded-full after:bg-mint after:transition-transform after:duration-200 after:ease-out xl:px-3 xl:after:inset-x-3 ${
+                className={`relative flex h-full items-center whitespace-nowrap px-2 text-[0.8125rem] font-medium transition-colors duration-150 after:absolute after:inset-x-2 after:bottom-0 after:h-[2px] after:origin-left after:rounded-full after:bg-mint after:transition-transform after:duration-200 after:ease-out 2xl:px-2.5 2xl:text-[0.875rem] 2xl:after:inset-x-2.5 ${
                   active || isOpen ? "text-brand after:scale-x-100" : "text-ink-2 after:scale-x-0 hover:text-brand"
                 }`}
               >
@@ -131,22 +133,34 @@ export function MegaNav({ categories }: { categories: MenuCategory[] }) {
           );
         })}
         <li className="ml-auto flex h-full items-center">
-          <Link href="/marki" className="link px-2.5 text-[0.875rem] font-medium text-ink-2 hover:text-brand">
+          <BarLink href="/promotsii" pathname={pathname} className="font-semibold text-danger">
+            Промоции
+          </BarLink>
+        </li>
+        <li className="hidden h-full items-center xl:flex">
+          <BarLink href="/srochni-produkti" pathname={pathname}>
+            Срочни продукти
+          </BarLink>
+        </li>
+        <li className="hidden h-full items-center min-[87.5rem]:flex">
+          <BarLink href="/kolektsii/novo" pathname={pathname}>
+            Нови продукти
+          </BarLink>
+        </li>
+        <li className="hidden h-full items-center xl:flex">
+          <BarLink href="/marki" pathname={pathname}>
             Марки
-          </Link>
+          </BarLink>
         </li>
         <li className="flex h-full items-center">
-          <Link href="/kolektsii/novo" className="link px-2.5 text-[0.875rem] font-medium text-ink-2 hover:text-brand">
-            Нови продукти
-          </Link>
-        </li>
-        <li className="flex h-full items-center pl-1">
-          <Link
-            href="/konsultatsia"
-            className="flex h-9 items-center gap-1.5 rounded-lg px-3 text-[0.875rem] font-semibold text-mint-deep transition-colors duration-150 hover:bg-mint-soft"
-          >
-            <IconPharmacist size={18} /> Попитай фармацевт
-          </Link>
+          <BarLink href="/sravnenie" pathname={pathname}>
+            Сравнение
+            {compare.ready && compare.items.length ? (
+              <span className="num ml-1.5 grid h-5 min-w-5 place-items-center rounded-full bg-brand px-1 text-[0.6875rem] font-bold text-white">
+                {compare.items.length}
+              </span>
+            ) : null}
+          </BarLink>
         </li>
       </ul>
     </nav>
@@ -264,5 +278,21 @@ function Panel({ category: c, open, instant, onEnter }: { category: MenuCategory
         </Link>
       </div>
     </div>
+  );
+}
+
+/** A plain link on the right of the bar, underlined in mint on its own page. */
+function BarLink({ href, pathname, className = "text-ink-2", children }: { href: string; pathname: string; className?: string; children: React.ReactNode }) {
+  const active = pathname === href || pathname.startsWith(`${href}/`);
+  return (
+    <Link
+      href={href}
+      aria-current={active ? "page" : undefined}
+      className={`relative flex h-full items-center whitespace-nowrap px-2 text-[0.8125rem] font-medium transition-colors duration-150 after:absolute after:inset-x-2 after:bottom-0 after:h-[2px] after:origin-left after:rounded-full after:bg-mint after:transition-transform after:duration-200 after:ease-out hover:text-brand 2xl:px-2.5 2xl:text-[0.875rem] ${
+        active ? "text-brand after:scale-x-100" : `${className} after:scale-x-0`
+      }`}
+    >
+      {children}
+    </Link>
   );
 }
