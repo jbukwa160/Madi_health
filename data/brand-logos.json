@@ -1,0 +1,212 @@
+{
+  "now": {
+    "file": "now.png",
+    "w": 256,
+    "h": 256,
+    "domain": "nowfoods.com"
+  },
+  "boiron": {
+    "file": "boiron.png",
+    "w": 256,
+    "h": 256,
+    "domain": "boiron.com"
+  },
+  "biotech-usa": {
+    "file": "biotech-usa.png",
+    "w": 256,
+    "h": 256,
+    "domain": "biotechusa.com"
+  },
+  "ostrovit": {
+    "file": "ostrovit.png",
+    "w": 256,
+    "h": 256,
+    "domain": "ostrovit.com"
+  },
+  "babyono": {
+    "file": "babyono.png",
+    "w": 256,
+    "h": 256,
+    "domain": "babyono.com"
+  },
+  "canpol": {
+    "file": "canpol.png",
+    "w": 256,
+    "h": 256,
+    "domain": "canpolbabies.com"
+  },
+  "olimp": {
+    "file": "olimp.png",
+    "w": 256,
+    "h": 256,
+    "domain": "olimp-supplements.com"
+  },
+  "philips-avent": {
+    "file": "philips-avent.png",
+    "w": 256,
+    "h": 256,
+    "domain": "philips.com"
+  },
+  "scitec": {
+    "file": "scitec.png",
+    "w": 256,
+    "h": 256,
+    "domain": "scitecnutrition.com"
+  },
+  "wee-baby": {
+    "file": "wee-baby.png",
+    "w": 256,
+    "h": 256,
+    "domain": "weebaby.com.tr"
+  },
+  "gymbeam": {
+    "file": "gymbeam.png",
+    "w": 256,
+    "h": 256,
+    "domain": "gymbeam.com"
+  },
+  "chicco": {
+    "file": "chicco.png",
+    "w": 256,
+    "h": 256,
+    "domain": "chicco.com"
+  },
+  "tommee-tippee": {
+    "file": "tommee-tippee.png",
+    "w": 256,
+    "h": 256,
+    "domain": "tommeetippee.com"
+  },
+  "pampers": {
+    "file": "pampers.png",
+    "w": 256,
+    "h": 256,
+    "domain": "pampers.com"
+  },
+  "natures-way": {
+    "file": "natures-way.png",
+    "w": 256,
+    "h": 256,
+    "domain": "naturesway.com"
+  },
+  "avene": {
+    "file": "avene.png",
+    "w": 256,
+    "h": 256,
+    "domain": "eau-thermale-avene.com"
+  },
+  "hartmann": {
+    "file": "hartmann.png",
+    "w": 256,
+    "h": 256,
+    "domain": "hartmann.info"
+  },
+  "bioderma": {
+    "file": "bioderma.png",
+    "w": 256,
+    "h": 256,
+    "domain": "bioderma.com"
+  },
+  "uriage": {
+    "file": "uriage.png",
+    "w": 256,
+    "h": 256,
+    "domain": "uriage.com"
+  },
+  "solgar": {
+    "file": "solgar.png",
+    "w": 256,
+    "h": 256,
+    "domain": "solgar.com"
+  },
+  "doppelherz": {
+    "file": "doppelherz.png",
+    "w": 256,
+    "h": 256,
+    "domain": "doppelherz.de"
+  },
+  "nutrend": {
+    "file": "nutrend.png",
+    "w": 256,
+    "h": 256,
+    "domain": "nutrend.eu"
+  },
+  "optimum-nutrition": {
+    "file": "optimum-nutrition.png",
+    "w": 256,
+    "h": 256,
+    "domain": "optimumnutrition.com"
+  },
+  "omron": {
+    "file": "omron.png",
+    "w": 256,
+    "h": 256,
+    "domain": "omron-healthcare.com"
+  },
+  "beurer": {
+    "file": "beurer.png",
+    "w": 256,
+    "h": 256,
+    "domain": "beurer.com"
+  },
+  "microlife": {
+    "file": "microlife.png",
+    "w": 256,
+    "h": 256,
+    "domain": "microlife.com"
+  },
+  "ducray": {
+    "file": "ducray.png",
+    "w": 256,
+    "h": 256,
+    "domain": "ducray.com"
+  },
+  "sebamed": {
+    "file": "sebamed.png",
+    "w": 256,
+    "h": 256,
+    "domain": "sebamed.com"
+  },
+  "nuxe": {
+    "file": "nuxe.png",
+    "w": 256,
+    "h": 256,
+    "domain": "nuxe.com"
+  },
+  "a-derma": {
+    "file": "a-derma.png",
+    "w": 256,
+    "h": 256,
+    "domain": "aderma.com"
+  },
+  "klorane": {
+    "file": "klorane.png",
+    "w": 256,
+    "h": 256,
+    "domain": "klorane.com"
+  },
+  "allnutrition": {
+    "file": "allnutrition.png",
+    "w": 256,
+    "h": 256,
+    "domain": "allnutrition.com"
+  },
+  "medela": {
+    "file": "medela.png",
+    "w": 256,
+    "h": 256,
+    "domain": "medela.com"
+  },
+  "apivita": {
+    "file": "apivita.png",
+    "w": 256,
+    "h": 256,
+    "domain": "apivita.com"
+  },
+  "hipp": {
+    "file": "hipp.png",
+    "w": 256,
+    "h": 256,
+    "domain": "hipp.de"
+  }
+}
